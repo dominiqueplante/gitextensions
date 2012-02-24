@@ -618,6 +618,7 @@ namespace GitUI
         /// </summary>
         /// <param name="workingDir">Path to repository.</param>
         /// <param name="isWorkingDirValid">If the given path contains valid repository.</param>
+        /// <param name="branchName">Current Branch Name</param>
         private static string GenerateWindowTitle(string workingDir, bool isWorkingDirValid, string branchName)
         {
 #if DEBUG
@@ -975,9 +976,16 @@ namespace GitUI
             var item = (GitTree.SelectedNode != null) ? GitTree.SelectedNode.Tag : null;
 
             if (item is GitItem)
+            {
                 if (((GitItem)item).IsBlob)
                     enableItems = true;
+            }
 
+            SetToolStripMenuItemsEnabled(enableItems);
+        }
+
+        private void SetToolStripMenuItemsEnabled(bool enableItems)
+        {
             saveAsToolStripMenuItem.Enabled = enableItems;
             openFileToolStripMenuItem.Enabled = enableItems;
             openFileWithToolStripMenuItem.Enabled = enableItems;
@@ -1017,29 +1025,35 @@ namespace GitUI
 
             foreach (var item in items)
             {
-                var subNode = node.Add(item.Name);
-                subNode.Tag = item;
+                ProcessItem(node, item);
+            }
+        }
 
-                var gitItem = item as GitItem;
+        private static void ProcessItem(TreeNodeCollection node, IGitItem item)
+        {
+            var subNode = node.Add(item.Name);
+            subNode.Tag = item;
 
-                if (gitItem == null)
-                    subNode.Nodes.Add(new TreeNode());
-                else
-                {
-                    if (gitItem.IsTree)
-                    {
-                        subNode.ImageIndex = 1;
-                        subNode.SelectedImageIndex = 1;
-                        subNode.Nodes.Add(new TreeNode());
-                    }
-                    else
-                        if (gitItem.IsCommit)
-                        {
-                            subNode.ImageIndex = 2;
-                            subNode.SelectedImageIndex = 2;
-                            subNode.Text = item.Name + " (Submodule)";
-                        }
-                }
+            var gitItem = item as GitItem;
+
+            if (gitItem == null)
+            {
+                subNode.Nodes.Add(new TreeNode());
+                return;
+            }
+
+            if (gitItem.IsTree)
+            {
+                subNode.ImageIndex = 1;
+                subNode.SelectedImageIndex = 1;
+                subNode.Nodes.Add(new TreeNode());
+                return;
+            }
+            if (gitItem.IsCommit)
+            {
+                subNode.ImageIndex = 2;
+                subNode.SelectedImageIndex = 2;
+                subNode.Text = item.Name + " (Submodule)";
             }
         }
 
@@ -1298,8 +1312,8 @@ namespace GitUI
 
         private void SaveUserMenuPosition()
         {
-            GitCommands.Settings.UserMenuLocationX = this.UserMenuToolStrip.Location.X;
-            GitCommands.Settings.UserMenuLocationY = this.UserMenuToolStrip.Location.Y;
+            Settings.UserMenuLocationX = this.UserMenuToolStrip.Location.X;
+            Settings.UserMenuLocationY = this.UserMenuToolStrip.Location.Y;
         }
 
         private void EditGitignoreToolStripMenuItem1Click(object sender, EventArgs e)
@@ -2384,7 +2398,7 @@ namespace GitUI
                 string filePath = fileNames.ToString();
                 if (File.Exists(filePath))
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", "/select, " + filePath);
+                    Process.Start("explorer.exe", "/select, " + filePath);
                 }
             }
         }
