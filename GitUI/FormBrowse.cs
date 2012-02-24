@@ -943,27 +943,30 @@ namespace GitUI
             return candidates.Where(fileName => fileName.ToLower().Contains(nameAsLower)).ToList();
         }
 
-
-
-
-
         public void OpenWithOnClick(object sender, EventArgs e)
         {
             var item = GitTree.SelectedNode.Tag;
 
-            if (item is GitItem)
-                if (((GitItem)item).IsBlob)
-                {
-                    var fileName = ((GitItem)item).FileName;
-                    if (fileName.Contains("\\") && fileName.LastIndexOf("\\") < fileName.Length)
-                        fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
-                    if (fileName.Contains("/") && fileName.LastIndexOf("/") < fileName.Length)
-                        fileName = fileName.Substring(fileName.LastIndexOf('/') + 1);
+            if (!(item is GitItem))
+                return;
+            var gitItem = item as GitItem;
+            if (!gitItem.IsBlob)
+                return;
+            var fileName = GetFileName(gitItem);
+            Settings.Module.SaveBlobAs(fileName, ((GitItem)item).Guid);
+            OpenWith.OpenAs(fileName);
+        }
 
-                    fileName = (Path.GetTempPath() + fileName).Replace(Settings.PathSeparatorWrong, Settings.PathSeparator);
-                    Settings.Module.SaveBlobAs(fileName, ((GitItem)item).Guid);
-                    OpenWith.OpenAs(fileName);
-                }
+        private static string GetFileName(GitItem item)
+        {
+            var fileName = item.FileName;
+            if (fileName.Contains("\\") && fileName.LastIndexOf("\\") < fileName.Length)
+                fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
+            if (fileName.Contains("/") && fileName.LastIndexOf("/") < fileName.Length)
+                fileName = fileName.Substring(fileName.LastIndexOf('/') + 1);
+
+            fileName = (Path.GetTempPath() + fileName).Replace(Settings.PathSeparatorWrong, Settings.PathSeparator);
+            return fileName;
         }
 
         private void FileTreeContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -990,20 +993,17 @@ namespace GitUI
             {
                 var item = GitTree.SelectedNode.Tag;
                 if (item is GitItem)
-                    if (((GitItem)item).IsBlob)
+                {
+                    var gitItem = item as GitItem;
+                    if (gitItem.IsBlob)
                     {
-                        var fileName = ((GitItem)item).FileName;
-                        if (fileName.Contains("\\") && fileName.LastIndexOf("\\") < fileName.Length)
-                            fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
-                        if (fileName.Contains("/") && fileName.LastIndexOf("/") < fileName.Length)
-                            fileName = fileName.Substring(fileName.LastIndexOf('/') + 1);
-
-                        fileName = (Path.GetTempPath() + fileName).Replace(Settings.PathSeparatorWrong, Settings.PathSeparator);
-
+                        var fileName = GetFileName(gitItem);
                         Settings.Module.SaveBlobAs(fileName, ((GitItem)item).Guid);
 
                         Process.Start(fileName);
                     }
+                }
+                    
             }
             catch (Exception ex)
             {
