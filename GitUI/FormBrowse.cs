@@ -450,13 +450,13 @@ namespace GitUI
             {
                 if (!_toolbarButtonsCreated)
                 {
-                    _commitButton = new ThumbnailToolBarButton(MakeIcon(toolStripButton1.Image, 48, true), toolStripButton1.Text);
+                    _commitButton = new ThumbnailToolBarButton(IconGenerator.MakeIcon(toolStripButton1.Image, 48, true), toolStripButton1.Text);
                     _commitButton.Click += ToolStripButton1Click;
 
-                    _pushButton = new ThumbnailToolBarButton(MakeIcon(toolStripButtonPush.Image, 48, true), toolStripButtonPush.Text);
+                    _pushButton = new ThumbnailToolBarButton(IconGenerator.MakeIcon(toolStripButtonPush.Image, 48, true), toolStripButtonPush.Text);
                     _pushButton.Click += PushToolStripMenuItemClick;
 
-                    _pullButton = new ThumbnailToolBarButton(MakeIcon(toolStripButtonPull.Image, 48, true), toolStripButtonPull.Text);
+                    _pullButton = new ThumbnailToolBarButton(IconGenerator.MakeIcon(toolStripButtonPull.Image, 48, true), toolStripButtonPull.Text);
                     _pullButton.Click += PullToolStripMenuItemClick;
 
                     _toolbarButtonsCreated = true;
@@ -472,59 +472,6 @@ namespace GitUI
                 _pullButton.Enabled = validRepo;
             }
 #endif
-        }
-
-        /// <summary>
-        /// Converts an image into an icon.  This was taken off of the interwebs.
-        /// It's on a billion different sites and forum posts, so I would say its creative commons by now. -tekmaven
-        /// </summary>
-        /// <param name="img">The image that shall become an icon</param>
-        /// <param name="size">The width and height of the icon. Standard
-        /// sizes are 16x16, 32x32, 48x48, 64x64.</param>
-        /// <param name="keepAspectRatio">Whether the image should be squashed into a
-        /// square or whether whitespace should be put around it.</param>
-        /// <returns>An icon!!</returns>
-        private static Icon MakeIcon(Image img, int size, bool keepAspectRatio)
-        {
-            Bitmap square = new Bitmap(size, size); // create new bitmap
-            Graphics g = Graphics.FromImage(square); // allow drawing to it
-
-            int x, y, w, h; // dimensions for new image
-
-            if (!keepAspectRatio || img.Height == img.Width)
-            {
-                // just fill the square
-                x = y = 0; // set x and y to 0
-                w = h = size; // set width and height to size
-            }
-            else
-            {
-                // work out the aspect ratio
-                float r = (float)img.Width / (float)img.Height;
-
-                // set dimensions accordingly to fit inside size^2 square
-                if (r > 1)
-                { // w is bigger, so divide h by r
-                    w = size;
-                    h = (int)((float)size / r);
-                    x = 0; y = (size - h) / 2; // center the image
-                }
-                else
-                { // h is bigger, so multiply w by r
-                    w = (int)((float)size * r);
-                    h = size;
-                    y = 0; x = (size - w) / 2; // center the image
-                }
-            }
-
-            // make the image shrink nicely by using HighQualityBicubic mode
-            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            g.DrawImage(img, x, y, w, h); // draw image with specified dimensions
-            g.Flush(); // make sure all drawing operations complete before we get the icon
-
-            // following line would work directly on any image, but then
-            // it wouldn't look as nice.
-            return Icon.FromHandle(square.GetHicon());
         }
 
         private void UpdateStashCount()
