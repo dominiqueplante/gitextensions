@@ -32,11 +32,7 @@ namespace GitUI
 
             noImageService.Items.AddRange(GravatarService.DynamicServices.Cast<object>().ToArray());
 
-            _NO_TRANSLATE_Encoding.Items.AddRange(new Object[]
-                                                      {
-                                                          "Default (" + Encoding.Default.HeaderName + ")", "ASCII",
-                                                          "Unicode", "UTF7", "UTF8", "UTF32"
-                                                      });
+            _NO_TRANSLATE_Encoding.Items.AddRange(FileViewer.EncodingTypes);
             GlobalEditor.Items.AddRange(new Object[] { "\"" + Settings.GetGitExtensionsFullPath() + "\" fileeditor", "vi", "notepad", "notepad++" });
 
             SetCurrentDiffFont(Settings.DiffFont);
@@ -74,9 +70,9 @@ namespace GitUI
 
         private static void SetCheckboxFromString(CheckBox checkBox, string str)
         {
-            str = str.Trim().ToLower();
+            var trimmedLowerStrint = str.Trim().ToLower();
 
-            switch (str)
+            switch (trimmedLowerStrint)
             {
                 case "true":
                     {
@@ -120,7 +116,7 @@ namespace GitUI
 
                 scriptEvent.DataSource = Enum.GetValues(typeof(ScriptEvent));
 
-                _NO_TRANSLATE_Encoding.Text = CalculateNoTranslateEncodingText(Settings.Encoding.GetType());
+                _NO_TRANSLATE_Encoding.Text = CalculateNoTranslateEncodingText;
 
                 chkFocusControlOnHover.Checked = Settings.FocusControlOnHover;
                 chkWarnBeforeCheckout.Checked = Settings.DirtyDirWarnBeforeCheckoutBranch;
@@ -323,21 +319,25 @@ namespace GitUI
             }
         }
 
-        private string CalculateNoTranslateEncodingText(Type encodingType)
+        private string CalculateNoTranslateEncodingText
         {
-            if (encodingType == typeof(ASCIIEncoding))
-                return "ASCII";
-            if (encodingType == typeof(UnicodeEncoding))
-                return "Unicode";
-            if (encodingType == typeof(UTF7Encoding))
-                return "UTF7";
-            if (encodingType == typeof(UTF8Encoding))
-                return  "UTF8";
-            if (encodingType == typeof(UTF32Encoding))
-                return "UTF32";
-            if (Settings.Encoding == Encoding.Default)
-                return "Default (" + Encoding.Default.HeaderName + ")";
-            return "<TILT>"; // Bob Martin (aka Uncle Bob) showed me this trick
+            get
+            {
+                Type encodingType = Settings.Encoding.GetType();
+                if (encodingType == typeof(ASCIIEncoding))
+                    return "ASCII";
+                if (encodingType == typeof(UnicodeEncoding))
+                    return "Unicode";
+                if (encodingType == typeof(UTF7Encoding))
+                    return "UTF7";
+                if (encodingType == typeof(UTF8Encoding))
+                    return "UTF8";
+                if (encodingType == typeof(UTF32Encoding))
+                    return "UTF32";
+                if (Settings.Encoding == Encoding.Default)
+                    return "Default (" + Encoding.Default.HeaderName + ")";
+                return "<TILT>"; // Bob Martin (aka Uncle Bob) showed me this trick
+            }
         }
 
         private void Ok_Click(object sender, EventArgs e)
@@ -438,11 +438,11 @@ namespace GitUI
 
             if (!CanFindGitCmd())
             {
-                if (
-                    MessageBox.Show(this,
-                        "The command to run git is not configured correct." + Environment.NewLine +
-                        "You need to set the correct path to be able to use GitExtensions." + Environment.NewLine +
-                        Environment.NewLine + "Do you want to set the correct command now?", "Incorrect path",
+                string cannotFindGitMessage = "The command to run git is not configured correct." + Environment.NewLine +
+                           "You need to set the correct path to be able to use GitExtensions." + Environment.NewLine +
+                           Environment.NewLine + "Do you want to set the correct command now?";
+                if (MessageBox.Show(this,
+                        cannotFindGitMessage, "Incorrect path",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                     return false;
             }
