@@ -318,7 +318,7 @@ namespace GitUI.Editor
         public void ViewStagingPatch(string text)
         {
             ViewPatch(text);
-            Reset(true, true, true);
+            Reset(true, true);
         }
 
         public void ViewSubmoduleChanges(string fileName, string oldFileName, bool staged)
@@ -334,7 +334,7 @@ namespace GitUI.Editor
             if (TextLoaded != null)
                 TextLoaded(this, null);
             RestoreCurrentScrollPos();
-            Reset(true, true, true);
+            Reset(true, true);
         }
 
         public void ViewPatch(string text)
@@ -349,7 +349,7 @@ namespace GitUI.Editor
         public void ViewStagingPatch(Func<string> loadPatchText)
         {
             ViewPatch(loadPatchText);
-            Reset(true, true, true);
+            Reset(true, true);
         }
 
         public void ViewPatch(Func<string> loadPatchText)
@@ -455,7 +455,7 @@ namespace GitUI.Editor
         {
             try
             {
-                using (Stream stream = File.OpenRead(GitCommands.Settings.WorkingDir + fileName))
+                using (Stream stream = File.OpenRead(Settings.WorkingDir + fileName))
                 {
                     return CreateImage(fileName, stream);
                 }
@@ -490,9 +490,9 @@ namespace GitUI.Editor
             if (File.Exists(fileName))
                 path = fileName;
             else
-                path = GitCommands.Settings.WorkingDir + fileName;
+                path = Settings.WorkingDir + fileName;
 
-            return !File.Exists(path) ? null : FileReader.ReadFileContent(path, GitCommands.Settings.Encoding);
+            return !File.Exists(path) ? null : FileReader.ReadFileContent(path, Settings.Encoding);
         }
 
         private void ResetForImage()
@@ -522,7 +522,7 @@ namespace GitUI.Editor
                 ResetForDiff();
             }
         }
-        private bool patchHighlighting = false;
+        private bool patchHighlighting;
         private void ResetForDiff()
         {
             Reset(true, true);
@@ -531,11 +531,6 @@ namespace GitUI.Editor
         }
 
         private void Reset(bool diff, bool text)
-        {
-            Reset(diff, text, false);
-        }
-
-        private void Reset(bool diff, bool text, bool staging_diff)
         {
             patchHighlighting = diff;
             EnableDiffContextMenu(diff);
@@ -548,7 +543,8 @@ namespace GitUI.Editor
         {
             PictureBox.ImageLocation = "";
 
-            if (PictureBox.Image == null) return;
+            if (PictureBox.Image == null)
+                return;
             PictureBox.Image.Dispose();
             PictureBox.Image = null;
         }
