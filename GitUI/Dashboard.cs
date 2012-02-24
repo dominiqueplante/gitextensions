@@ -328,17 +328,15 @@ namespace GitUI
                 return;
             }
             var text = e.Data.GetData(DataFormats.UnicodeText) as string;
-            if (!string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
+            var lines = text.Split('\n');
+            if (lines.Length != 1)
+                return;
+            string url = lines[0];
+            if (!string.IsNullOrEmpty(url))
             {
-                var lines = text.Split('\n');
-                if (lines.Length != 1)
-                    return;
-                string url = lines[0];
-                if (!string.IsNullOrEmpty(url))
-                {
-                    //Allow drop (copy, not move) folders
-                    e.Effect = DragDropEffects.Copy;
-                }
+                //Allow drop (copy, not move) folders
+                e.Effect = DragDropEffects.Copy;
             }
         }
     }
