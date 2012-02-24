@@ -27,10 +27,7 @@ namespace GitUI.Editor
             InitializeComponent();
             Translate();
 
-            if (GitCommands.Settings.RunningOnWindows())
-                _internalFileViewer = new FileViewerWindows();
-            else
-                _internalFileViewer = new FileViewerMono();
+            _internalFileViewer = InternalFileViewer;
 
             _internalFileViewer.MouseLeave += _internalFileViewer_MouseLeave;
             _internalFileViewer.MouseMove += _internalFileViewer_MouseMove;
@@ -54,23 +51,9 @@ namespace GitUI.Editor
             IsReadOnly = true;
 
             this.Encoding = Settings.Encoding;
-            this.encodingToolStripComboBox.Items.AddRange(new Object[]
-                                                    {
-                                                        "Default (" + Encoding.Default.HeaderName + ")", "ASCII",
-                                                        "Unicode", "UTF7", "UTF8", "UTF32"
-                                                    });
-            if (this.Encoding.GetType() == typeof(ASCIIEncoding))
-                this.encodingToolStripComboBox.Text = "ASCII";
-            else if (this.Encoding.GetType() == typeof(UnicodeEncoding))
-                this.encodingToolStripComboBox.Text = "Unicode";
-            else if (this.Encoding.GetType() == typeof(UTF7Encoding))
-                this.encodingToolStripComboBox.Text = "UTF7";
-            else if (this.Encoding.GetType() == typeof(UTF8Encoding))
-                this.encodingToolStripComboBox.Text = "UTF8";
-            else if (this.Encoding.GetType() == typeof(UTF32Encoding))
-                this.encodingToolStripComboBox.Text = "UTF32";
-            else if (this.Encoding == Encoding.Default)
-                this.encodingToolStripComboBox.Text = "Default (" + Encoding.Default.HeaderName + ")";
+            this.encodingToolStripComboBox.Items.AddRange(EncodingTypes);
+
+            this.encodingToolStripComboBox.Text = ToolStripComboBoxText;
             _internalFileViewer.MouseMove += TextAreaMouseMove;
             _internalFileViewer.MouseLeave += TextAreaMouseLeave;
             _internalFileViewer.TextChanged += TextEditor_TextChanged;
@@ -81,6 +64,54 @@ namespace GitUI.Editor
             this.HotkeysEnabled = true;
 
             ContextMenu.Opening += ContextMenu_Opening; 
+        }
+
+        private string ToolStripComboBoxText
+        {
+            get
+            {
+                // TODO, Cleanup
+                Type encodingType = Encoding.GetType();
+                if (encodingType == typeof (ASCIIEncoding))
+                    return "ASCII";
+                if (encodingType == typeof (UnicodeEncoding))
+                    return "Unicode";
+                if (encodingType == typeof (UTF7Encoding))
+                    return "UTF7";
+                if (encodingType == typeof (UTF8Encoding))
+                    return "UTF8";
+                if (encodingType == typeof (UTF32Encoding))
+                    return "UTF32";
+                if (Encoding == Encoding.Default)
+                    return "Default (" + Encoding.Default.HeaderName + ")";
+                return "<TILT>";
+            }
+        }
+
+        private IFileViewer InternalFileViewer
+        {
+            get
+            {
+                if (Settings.RunningOnWindows())
+                    return new FileViewerWindows();
+                return new FileViewerMono();
+            }
+        }
+
+        public static string[] EncodingTypes
+        {
+            get
+            {
+                return new[]
+                           {
+                               "Default (" + Encoding.Default.HeaderName + ")",
+                               "ASCII",
+                               "Unicode",
+                               "UTF7",
+                               "UTF8",
+                               "UTF32"
+                           };
+            }
         }
 
         protected override void OnLoad(EventArgs e)
