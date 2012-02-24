@@ -293,45 +293,41 @@ namespace GitPlugin.Commands
 
             // Add command
             Command command = GetCommand(commandName);
-            if (!m_visualStudioCommands.ContainsKey(commandName))
-                if (command == null)
+            if (!m_visualStudioCommands.ContainsKey(commandName) && command == null)
+            {
+                if (iconIndex > 0)
                 {
-                    if (iconIndex > 0)
-                    {
-                        try
-                        {
-                            command = commands.AddNamedCommand2(m_addIn,
-                                                                commandName, caption, tooltip, false, iconIndex,
-                                                                ref contextGUIDS,
-                                                                (int)vsCommandStatus.vsCommandStatusSupported +
-                                                                (int)vsCommandStatus.vsCommandStatusEnabled,
-                                                                (int)commandStyle,
-                                                                vsCommandControlType.vsCommandControlTypeButton);
-                            m_visualStudioCommands[commandName] = command;
-                        }
-                        catch
-                        {
-                        }
-                    }
-
-                    if (command == null && commandStyle != vsCommandStyle.vsCommandStylePict)
+                    try
                     {
                         command = commands.AddNamedCommand2(m_addIn,
-                                                            commandName, caption, tooltip, true, -1, ref contextGUIDS,
-                                                            (int)vsCommandStatus.vsCommandStatusSupported +
-                                                            (int)vsCommandStatus.vsCommandStatusEnabled,
-                                                            (int)commandStyle,
+                                                            commandName, caption, tooltip, false, iconIndex,
+                                                            ref contextGUIDS,
+                                                            (int) vsCommandStatus.vsCommandStatusSupported +
+                                                            (int) vsCommandStatus.vsCommandStatusEnabled,
+                                                            (int) commandStyle,
                                                             vsCommandControlType.vsCommandControlTypeButton);
                         m_visualStudioCommands[commandName] = command;
                     }
+                    catch
+                    {
+                    }
                 }
-            if (command != null && bar != null)
-            {
-                if (!HasCommand(bar, caption))
+
+                if (command == null && commandStyle != vsCommandStyle.vsCommandStylePict)
                 {
-                    OutputPane.OutputString("Add toolbar command: " + caption + Environment.NewLine);
-                    command.AddControl(bar, insertIndex);
+                    command = commands.AddNamedCommand2(m_addIn,
+                                                        commandName, caption, tooltip, true, -1, ref contextGUIDS,
+                                                        (int) vsCommandStatus.vsCommandStatusSupported +
+                                                        (int) vsCommandStatus.vsCommandStatusEnabled,
+                                                        (int) commandStyle,
+                                                        vsCommandControlType.vsCommandControlTypeButton);
+                    m_visualStudioCommands[commandName] = command;
                 }
+            }
+            if (command != null && !HasCommand(bar, caption))
+            {
+                OutputPane.OutputString("Add toolbar command: " + caption + Environment.NewLine);
+                command.AddControl(bar, insertIndex);
             }
         }
 
