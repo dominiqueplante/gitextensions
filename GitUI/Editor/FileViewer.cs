@@ -597,20 +597,25 @@ namespace GitUI.Editor
             if (string.IsNullOrEmpty(_internalFileViewer.GetSelectedText()))
                 return;
 
-            string code;
-            if (_currentViewIsPatch)
+            Clipboard.SetText(CalculateClipboardText);
+        }
+
+        private string CalculateClipboardText
+        {
+            get
             {
-                code = _internalFileViewer.GetSelectedText();
+                if (!_currentViewIsPatch)
+                {
+                    return _internalFileViewer.GetSelectedText();
+                }
+                string code = _internalFileViewer.GetSelectedText();
 
                 if (code.Contains("\n") && (code[0].Equals(' ') || code[0].Equals('+') || code[0].Equals('-')))
                     code = code.Substring(1);
 
                 code = code.Replace("\n+", "\n").Replace("\n-", "\n").Replace("\n ", "\n");
+                return code;
             }
-            else
-                code = _internalFileViewer.GetSelectedText();
-
-            Clipboard.SetText(code);
         }
 
         private void CopyPatchToolStripMenuItemClick(object sender, EventArgs e)
@@ -752,7 +757,7 @@ namespace GitUI.Editor
 
         public const string HotkeySettingsName = "FileViewer";
 
-        internal enum Commands : int
+        internal enum Commands
         {
             Find,
             IncreaseNumberOfVisibleLines,
@@ -797,7 +802,7 @@ namespace GitUI.Editor
 
         private void encodingToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Encoding encod = null;
+            Encoding encod;
             if (string.IsNullOrEmpty(encodingToolStripComboBox.Text))
                 encod = Settings.Encoding;
             else if (encodingToolStripComboBox.Text.StartsWith("Default", StringComparison.CurrentCultureIgnoreCase))
@@ -814,11 +819,10 @@ namespace GitUI.Editor
                 encod = new UTF32Encoding(true, false);
             else
                 encod = Settings.Encoding;
-            if (encod != this.Encoding)
-            {
-                this.Encoding = encod;
-                this.OnExtraDiffArgumentsChanged();
-            }
+            if (encod == Encoding)
+                return;
+            Encoding = encod;
+            OnExtraDiffArgumentsChanged();
         }
 
     }
