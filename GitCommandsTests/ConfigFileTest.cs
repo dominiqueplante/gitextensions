@@ -4,7 +4,6 @@ using System.Text;
 using GitCommands.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using GitCommands;
 
 namespace GitCommandsTests
 {
