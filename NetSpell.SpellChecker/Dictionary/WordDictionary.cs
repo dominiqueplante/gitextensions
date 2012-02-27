@@ -669,7 +669,7 @@ namespace NetSpell.SpellChecker.Dictionary
         }
 
         /// <summary>
-        ///     Set this to true to automaticly create a user dictionary when
+        ///     Set this to true to automatically create a user dictionary when
         ///     a word is added.
         /// </summary>
         /// <remarks>
@@ -677,7 +677,7 @@ namespace NetSpell.SpellChecker.Dictionary
         /// </remarks>
         [DefaultValue(true)]
         [CategoryAttribute("Options")]
-        [Description("Set this to true to automaticly create a user dictionary")]
+        [Description("Set this to true to automatically create a user dictionary")]
         [NotifyParentProperty(true)]
         public bool EnableUserFile
         {

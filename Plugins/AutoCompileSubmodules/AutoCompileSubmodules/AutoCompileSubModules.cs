@@ -90,7 +90,7 @@ namespace AutoCompileSubmodules
 
 
         /// <summary>
-        ///   Automaticly compile all solution files found in any submodule
+        ///   Automatically compile all solution files found in any submodule
         /// </summary>
         private void GitUiCommandsPostUpdateSubmodules(object sender, GitUIBaseEventArgs e)
         {
