@@ -67,11 +67,7 @@ namespace GitUI
         {
             try
             {
-                var dirTo = _NO_TRANSLATE_To.Text;
-                if (!dirTo.EndsWith(Settings.PathSeparator.ToString()) && !dirTo.EndsWith(Settings.PathSeparatorWrong.ToString()))
-                    dirTo += Settings.PathSeparator.ToString();
-
-                dirTo += _NO_TRANSLATE_NewDirectory.Text;
+                var dirTo = DestinationFolder;
 
                 Repositories.AddMostRecentRepository(_NO_TRANSLATE_From.Text);
                 Repositories.AddMostRecentRepository(dirTo);
@@ -86,7 +82,7 @@ namespace GitUI
                 fromProcess.SetUrlTryingToConnect(_NO_TRANSLATE_From.Text);
                 fromProcess.ShowDialog(this);
 
-                if (fromProcess.ErrorOccurred() || Settings.Module.InTheMiddleOfPatch())
+                if (fromProcess.ErrorOccurred || Settings.Module.InTheMiddleOfPatch())
                     return;
 
                 if (ShowInTaskbar == false && AskIfNewRepositoryShouldBeOpened(dirTo))
@@ -102,6 +98,20 @@ namespace GitUI
             catch (Exception ex)
             {
                 MessageBox.Show(this, "Exception: " + ex.Message, "Clone failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string DestinationFolder
+        {
+            get
+            {
+                var dirTo = _NO_TRANSLATE_To.Text;
+                if (!dirTo.EndsWith(Settings.PathSeparator.ToString()) &&
+                    !dirTo.EndsWith(Settings.PathSeparatorWrong.ToString()))
+                    dirTo += Settings.PathSeparator.ToString();
+
+                dirTo += _NO_TRANSLATE_NewDirectory.Text;
+                return dirTo;
             }
         }
 

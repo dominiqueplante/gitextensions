@@ -96,7 +96,7 @@ namespace GitUI
                 command += " \"" + Branches.Text + "\"";
                 var form = new FormProcess(command);
                 form.ShowDialog(this);
-                if (!form.ErrorOccurred())
+                if (!form.ErrorOccurred)
                     Close();
             }
             catch (Exception ex)

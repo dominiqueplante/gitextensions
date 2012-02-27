@@ -52,12 +52,11 @@ namespace GitUI
             var command = GitCommandHelpers.MarkRevisionBisectCmd(true, startRevision);
             var form = new FormProcess(command);
             form.ShowDialog(this);
-            if (!form.ErrorOccurred())
-            {
-                command = GitCommandHelpers.MarkRevisionBisectCmd(false, endRevision);
-                form = new FormProcess(command);
-                form.ShowDialog(this);
-            }
+            if (form.ErrorOccurred)
+                return;
+            command = GitCommandHelpers.MarkRevisionBisectCmd(false, endRevision);
+            form = new FormProcess(command);
+            form.ShowDialog(this);
         }
 
         private void Good_Click(object sender, EventArgs e)

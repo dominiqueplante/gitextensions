@@ -284,7 +284,7 @@ namespace GitUI
         {
             if (!Settings.Module.InTheMiddleOfConflictedMerge() &&
                 !Settings.Module.InTheMiddleOfRebase() &&
-                (process != null && !process.ErrorOccurred()))
+                (process != null && !process.ErrorOccurred))
             {
                 InitModules();
                 return true;
@@ -325,7 +325,7 @@ namespace GitUI
             if (!PullAll())
                 process.Remote = source;
             process.ShowDialog(this);
-            ErrorOccurred = process.ErrorOccurred();
+            ErrorOccurred = process.ErrorOccurred;
         }
 
         private bool CalculateStashedValue()
@@ -343,7 +343,7 @@ namespace GitUI
         {
             return stashed && 
                    process != null && 
-                   !process.ErrorOccurred() &&
+                   !process.ErrorOccurred &&
                    !Settings.Module.InTheMiddleOfConflictedMerge() &&
                    !Settings.Module.InTheMiddleOfRebase() &&
                    messageBoxResult;

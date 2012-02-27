@@ -61,7 +61,7 @@ namespace GitUI
                 
                 fromProcess.ShowDialog(this);
 
-                if (fromProcess.ErrorOccurred() || Settings.Module.InTheMiddleOfPatch())
+                if (fromProcess.ErrorOccurred || Settings.Module.InTheMiddleOfPatch())
                     return;
                 if (ShowInTaskbar == false && AskIfNewRepositoryShouldBeOpened(dirTo))
                 {

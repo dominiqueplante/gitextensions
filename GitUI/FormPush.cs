@@ -232,7 +232,7 @@ namespace GitUI
             form.ShowDialog(owner);
 
             if (!Settings.Module.InTheMiddleOfConflictedMerge() &&
-                !Settings.Module.InTheMiddleOfRebase() && !form.ErrorOccurred())
+                !Settings.Module.InTheMiddleOfRebase() && !form.ErrorOccurred)
             {
                 ScriptManager.RunEventScripts(ScriptEvent.AfterPush);
                 if (_createPullRequestCB.Checked)

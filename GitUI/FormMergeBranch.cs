@@ -44,7 +44,7 @@ namespace GitUI
 
             var wasConflict = MergeConflictHandler.HandleMergeConflicts(this);
 
-            if (!process.ErrorOccurred() || wasConflict)
+            if (!process.ErrorOccurred || wasConflict)
                 Close();
         }
 

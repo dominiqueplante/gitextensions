@@ -662,7 +662,7 @@ namespace GitUI
 
                 NeedRefresh = true;
 
-                if (form.ErrorOccurred())
+                if (form.ErrorOccurred)
                     return;
 
                 ScriptManager.RunEventScripts(ScriptEvent.AfterCommit);

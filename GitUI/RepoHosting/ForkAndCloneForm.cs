@@ -271,7 +271,7 @@ namespace GitUI.RepoHosting
             var formProcess = new FormProcess(Settings.GitCommand, cmd);
             formProcess.ShowDialog(this);
 
-            if (formProcess.ErrorOccurred())
+            if (formProcess.ErrorOccurred)
                 return;
 
             Repositories.AddMostRecentRepository(targetDir);

@@ -45,9 +45,9 @@ namespace GitUI
         private bool errorOccurred;
         private bool showOnError;
 
-        public bool ErrorOccurred()
+        public bool ErrorOccurred
         {
-            return errorOccurred;
+            get { return errorOccurred; }
         }
 
         public void SetProgress(string text)
