@@ -22,7 +22,7 @@ namespace GitUI
             new TranslationString("Error");
 
         private readonly TranslationString _initMsgBoxCaption =
-            new TranslationString("Initialize new repository");
+            new TranslationString("Create new repository");
 
         
 
@@ -50,26 +50,27 @@ namespace GitUI
 
         private void InitClick(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Directory.Text))
+            string trimmedDirectoryText = Directory.Text.Trim();
+            if (string.IsNullOrEmpty(trimmedDirectoryText))
             {
-                MessageBox.Show(this, _chooseDirectory.Text,_chooseDirectoryCaption.Text);
+                MessageBox.Show(this, _chooseDirectory.Text, _chooseDirectoryCaption.Text);
                 return;
             }
 
-            if (File.Exists(Directory.Text))
+            if (File.Exists(trimmedDirectoryText))
             {
                 MessageBox.Show(this, _chooseDirectoryNotFile.Text,_chooseDirectoryNotFileCaption.Text);
                 return;
             }
 
-            Settings.WorkingDir = Directory.Text;
+            Settings.WorkingDir = trimmedDirectoryText;
 
             if (!System.IO.Directory.Exists(Settings.WorkingDir))
                 System.IO.Directory.CreateDirectory(Settings.WorkingDir);
 
             MessageBox.Show(this, Settings.Module.Init(Central.Checked, Central.Checked), _initMsgBoxCaption.Text);
 
-            Repositories.AddMostRecentRepository(Directory.Text);
+            Repositories.AddMostRecentRepository(trimmedDirectoryText);
 
             Close();
         }

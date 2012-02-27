@@ -126,7 +126,7 @@
             this.MinimizeBox = false;
             this.Name = "FormInit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Initialize new repository";
+            this.Text = "Create new repository";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
