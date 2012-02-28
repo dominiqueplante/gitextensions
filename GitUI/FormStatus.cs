@@ -64,7 +64,7 @@ namespace GitUI
                         ProgressBar.Value = Math.Min(100, progressValue);
 
 #if !__MonoCS__
-                        if (GitCommands.Settings.RunningOnWindows() && TaskbarManager.IsPlatformSupported)
+                        if (GitCommands.Settings.RunningOnWindows && TaskbarManager.IsPlatformSupported)
                             {
                                 try
                                 {
@@ -120,7 +120,7 @@ namespace GitUI
             AcceptButton = Ok;
             Abort.Enabled = false;
 #if !__MonoCS__
-            if (GitCommands.Settings.RunningOnWindows() && TaskbarManager.IsPlatformSupported)
+            if (GitCommands.Settings.RunningOnWindows && TaskbarManager.IsPlatformSupported)
             {
                 try
                 {
@@ -222,7 +222,7 @@ namespace GitUI
         private void FormStatus_FormClosed(object sender, FormClosedEventArgs e)
         {
 #if !__MonoCS__
-            if (GitCommands.Settings.RunningOnWindows() && TaskbarManager.IsPlatformSupported)
+            if (GitCommands.Settings.RunningOnWindows && TaskbarManager.IsPlatformSupported)
             {
                 try
                 {
@@ -236,7 +236,7 @@ namespace GitUI
         private void Start()
         {
 #if !__MonoCS__
-            if (GitCommands.Settings.RunningOnWindows() && TaskbarManager.IsPlatformSupported)
+            if (GitCommands.Settings.RunningOnWindows && TaskbarManager.IsPlatformSupported)
             {
                 try
                 {

@@ -58,7 +58,7 @@ namespace GitUI
             //The section below contains native windows (kernel32) calls
             //and breaks on Linux. Only use it on Windows. Casing is only
             //a Windows problem anyway.
-            if (Settings.RunningOnWindows())
+            if (Settings.RunningOnWindows)
             {
                 // we will need this later to look up proper casing for the file
                 string fullFilePath = fileName;

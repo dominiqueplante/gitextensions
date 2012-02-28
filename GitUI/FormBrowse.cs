@@ -101,7 +101,7 @@ namespace GitUI
             Translate();
 
 #if !__MonoCS__
-            if (Settings.RunningOnWindows() && TaskbarManager.IsPlatformSupported)
+            if (Settings.RunningOnWindows && TaskbarManager.IsPlatformSupported)
             {
                 TaskbarManager.Instance.ApplicationId = "HenkWesthuis.GitExtensions";
             }
@@ -418,7 +418,7 @@ namespace GitUI
         private void UpdateJumplist(bool validWorkingDir)
         {
 #if !__MonoCS__
-            if (Settings.RunningOnWindows() && TaskbarManager.IsPlatformSupported)
+            if (Settings.RunningOnWindows && TaskbarManager.IsPlatformSupported)
             {
                 //Call this method using reflection.  This is a workaround to *not* reference WPF libraries, becuase of how the WindowsAPICodePack was implimented.
                 TaskbarManager.Instance.GetType().InvokeMember("SetApplicationIdForSpecificWindow", System.Reflection.BindingFlags.InvokeMethod, null, TaskbarManager.Instance, new object[] { Handle, "GitExtensions" });
@@ -446,7 +446,7 @@ namespace GitUI
         private void CreateOrUpdateTaskBarButtons(bool validRepo)
         {
 #if !__MonoCS__
-            if (Settings.RunningOnWindows() && TaskbarManager.IsPlatformSupported)
+            if (Settings.RunningOnWindows && TaskbarManager.IsPlatformSupported)
             {
                 if (!_toolbarButtonsCreated)
                 {

@@ -78,7 +78,7 @@ namespace GitExtensions
 
         private static void CheckHomePathWhenNecessary()
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
                 return;
             //Quick HOME check:
             FormSplash.SetAction("Check home path");

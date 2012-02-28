@@ -88,7 +88,7 @@ namespace GitCommands
             if (!string.IsNullOrEmpty(UserHomeDir))
                 return UserHomeDir;
 
-            if (Settings.RunningOnWindows())
+            if (Settings.RunningOnWindows)
             {
                 return WindowsDefaultHomeDir;
             }

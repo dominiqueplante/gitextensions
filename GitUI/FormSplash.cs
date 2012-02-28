@@ -73,7 +73,7 @@ namespace GitUI
                 _NO_TRANSLATE_osLabel.Text = "Unix";
             if (Settings.RunningOnMacOSX())
                 _NO_TRANSLATE_osLabel.Text = "MacOSX";
-            if (Settings.RunningOnWindows())
+            if (Settings.RunningOnWindows)
                 _NO_TRANSLATE_osLabel.Text = "Windows";
         }
     }

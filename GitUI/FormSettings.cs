@@ -46,7 +46,7 @@ namespace GitUI
 
         public static bool AutoSolveAllSettings()
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
                 return SolveGitCommand();
 
             return SolveGitCommand() &&
@@ -349,7 +349,7 @@ namespace GitUI
         {
             SaveScripts();
 
-            if (Settings.RunningOnWindows())
+            if (Settings.RunningOnWindows)
             {
 
                 FormFixHome.CheckHomePath();
@@ -619,7 +619,7 @@ namespace GitUI
                 bValid = CheckDiffToolConfiguration() && bValid;
                 bValid = CheckTranslationConfigSettings() && bValid;
 
-                if (Settings.RunningOnWindows())
+                if (Settings.RunningOnWindows)
                 {
                     bValid = CheckGitExtensionsInstall() && bValid;
                     bValid = CheckGitExtensionRegistrySettings() && bValid;
@@ -822,7 +822,7 @@ namespace GitUI
                         return false;
                 }
             }
-            else if (Settings.RunningOnWindows())
+            else if (Settings.RunningOnWindows)
             {
                 if (string.IsNullOrEmpty(kdiff3path) || !File.Exists(kdiff3path))
                 {
@@ -862,7 +862,7 @@ namespace GitUI
                         return false;
                 }
             }
-            else if (Settings.RunningOnWindows())
+            else if (Settings.RunningOnWindows)
             {
                 if (string.IsNullOrEmpty(kdiff3path) || !File.Exists(kdiff3path))
                 {
@@ -1011,7 +1011,7 @@ namespace GitUI
 
         public static bool SolveLinuxToolsDir()
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
             {
                 Settings.GitBinDir = "";
                 return true;
@@ -1074,7 +1074,7 @@ namespace GitUI
 
         private bool AutoFindPuttyPaths()
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
                 return false;
 
             var puttyPaths = new List<string>
@@ -1217,7 +1217,7 @@ namespace GitUI
 
         private void MergeToolCmdSuggest_Click(object sender, EventArgs e)
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
                 return;
 
             if (GlobalMergeTool.Text.Equals("kdiff3", StringComparison.CurrentCultureIgnoreCase))
@@ -1444,7 +1444,7 @@ namespace GitUI
 
         private void ResolveDiffToolPath()
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
                 return;
 
             if (GlobalDiffTool.Text.Equals("kdiff3", StringComparison.CurrentCultureIgnoreCase))
@@ -1680,7 +1680,7 @@ namespace GitUI
 
         private void DiffToolCmdSuggest_Click(object sender, EventArgs e)
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
                 return;
 
             if (GlobalDiffTool.Text.Equals("BeyondCompare3", StringComparison.CurrentCultureIgnoreCase))
@@ -1859,7 +1859,7 @@ namespace GitUI
                 DiffTool2.Text = "You should configure a diff tool to show file diff in external program (kdiff3 for example).";
                 return false;
             }
-            if (Settings.RunningOnWindows())
+            if (Settings.RunningOnWindows)
             {
                 if (GetGlobalDiffToolFromConfig().Equals("kdiff3", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -1895,7 +1895,7 @@ namespace GitUI
                 return false;
             }
 
-            if (Settings.RunningOnWindows())
+            if (Settings.RunningOnWindows)
             {
                 if (Settings.Module.GetGlobalSetting("merge.tool").Equals("kdiff3",
                                                                             StringComparison.CurrentCultureIgnoreCase))
@@ -1956,7 +1956,7 @@ namespace GitUI
 
         private bool CheckGitExtensionRegistrySettings()
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
                 return true;
 
             ShellExtensionsRegistered.Visible = true;
@@ -1996,7 +1996,7 @@ namespace GitUI
 
         private bool CheckGitExtensionsInstall()
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
                 return true;
 
             GitExtensionsInstall.Visible = true;
@@ -2049,7 +2049,7 @@ namespace GitUI
 
         private static bool SolveGitCommand()
         {
-            if (Settings.RunningOnWindows())
+            if (Settings.RunningOnWindows)
             {
                 var command = (from cmd in GetWindowsCommandLocations()
                                let output = Settings.Module.RunCmd(cmd, string.Empty)

@@ -178,7 +178,7 @@ namespace GitUI
 
         private bool TryMergeWithScript(string fileName, string baseFileName, string remoteFileName, string localFileName)
         {
-            if (!Settings.RunningOnWindows())
+            if (!Settings.RunningOnWindows)
                 return false;
 
             try
