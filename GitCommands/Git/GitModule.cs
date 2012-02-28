@@ -85,9 +85,9 @@ namespace GitCommands
                    Directory.Exists(dir + Settings.PathSeparator.ToString() + "refs");
         }
 
-        public string GetGitDirectory()
+        public string GitDirectory
         {
-            return GetGitDirectory(_workingdir);
+            get { return GetGitDirectory(_workingdir); }
         }
 
         public bool IsBareRepository()
@@ -671,7 +671,7 @@ namespace GitCommands
 
         public string GetMergeMessage()
         {
-            var file = GetGitDirectory() + "MERGE_MSG";
+            var file = GitDirectory + "MERGE_MSG";
 
             return
                 File.Exists(file)
@@ -1207,7 +1207,7 @@ namespace GitCommands
 
         public string GetRebaseDir()
         {
-            string gitDirectory = GetGitDirectory();
+            string gitDirectory = GitDirectory;
             if (Directory.Exists(gitDirectory + "rebase-merge" + Settings.PathSeparator.ToString()))
                 return gitDirectory + "rebase-merge" + Settings.PathSeparator.ToString();
             if (Directory.Exists(gitDirectory + "rebase-apply" + Settings.PathSeparator.ToString()))

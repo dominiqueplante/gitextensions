@@ -538,7 +538,7 @@ namespace GitUI
             }
 
             if (validWorkingDir && Settings.Module.InTheMiddleOfConflictedMerge() &&
-                !Directory.Exists(Settings.Module.GetGitDirectory() + "rebase-apply\\"))
+                !Directory.Exists(Settings.Module.GitDirectory + "rebase-apply\\"))
             {
                 if (_warning == null)
                 {

@@ -69,7 +69,7 @@ namespace GitUI
             gitDirWatcher.IncludeSubdirectories = true;
             gitDirWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
 
-            TryStartWatchingChanges(Settings.WorkingDir, Settings.Module.GetGitDirectory());
+            TryStartWatchingChanges(Settings.WorkingDir, Settings.Module.GitDirectory);
         }
 
 

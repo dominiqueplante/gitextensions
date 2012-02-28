@@ -516,7 +516,7 @@ namespace GitCommands
                 _module.WorkingDir = value;
                 if (WorkingDirChanged != null)
                 {
-                    WorkingDirChanged(old, _module.WorkingDir, _module.GetGitDirectory());
+                    WorkingDirChanged(old, _module.WorkingDir, _module.GitDirectory);
                 }
             }
         }
