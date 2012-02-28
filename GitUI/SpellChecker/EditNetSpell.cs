@@ -100,7 +100,7 @@ namespace GitUI.SpellChecker
 
         private void LoadDictionary()
         {
-            string dictionaryFile = string.Concat(Settings.DictionaryDirectory, Settings.Dictionary, ".dic");
+            string dictionaryFile = Path.Combine(Settings.DictionaryDirectory, Settings.Dictionary + ".dic");
 
             if (_wordDictionary == null || _wordDictionary.DictionaryFile != dictionaryFile)
             {

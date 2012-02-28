@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -677,7 +678,7 @@ namespace GitCommands
         {
             get
             {
-                return InstallDirectory + "\\Dictionaries\\";
+                return Path.Combine(InstallDirectory, "Dictionaries");
             }
         }
 

@@ -1077,19 +1077,19 @@ namespace GitUI
             if (!Settings.RunningOnWindows())
                 return false;
 
-            if (AutoFindPuttyPathsInDir("c:\\Program Files\\PuTTY\\")) return true;
-            if (AutoFindPuttyPathsInDir("c:\\Program Files (x86)\\PuTTY\\")) return true;
-            if (AutoFindPuttyPathsInDir("C:\\Program Files\\TortoiseGit\\bin")) return true;
-            if (AutoFindPuttyPathsInDir("C:\\Program Files (x86)\\TortoiseGit\\bin")) return true;
-            if (AutoFindPuttyPathsInDir("C:\\Program Files\\TortoiseSvn\\bin")) return true;
-            if (AutoFindPuttyPathsInDir("C:\\Program Files (x86)\\TortoiseSvn\\bin")) return true;
-            if (
-                AutoFindPuttyPathsInDir(GetRegistryValue(Registry.LocalMachine,
-                                                         "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\PuTTY_is1",
-                                                         "InstallLocation"))) return true;
-            if (AutoFindPuttyPathsInDir(Settings.InstallDirectory + "\\PuTTY\\")) return true;
+            var puttyPaths = new List<string>
+                                 {
+                                     "c:\\Program Files\\PuTTY\\",
+                                     "c:\\Program Files (x86)\\PuTTY\\",
+                                     "C:\\Program Files\\TortoiseGit\\bin",
+                                     "C:\\Program Files (x86)\\TortoiseGit\\bin",
+                                     "C:\\Program Files\\TortoiseSvn\\bin",
+                                     "C:\\Program Files (x86)\\TortoiseSvn\\bin",
+                                     GetRegistryValue(Registry.LocalMachine, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\PuTTY_is1", "InstallLocation"),
+                                    Path.Combine(Settings.InstallDirectory,"PuTTY")
+                                 };
 
-            return false;
+            return puttyPaths.Any(AutoFindPuttyPathsInDir);
         }
 
         private bool AutoFindPuttyPathsInDir(string installdir)
@@ -1180,13 +1180,12 @@ namespace GitUI
 
         private void SshConfig_Click(object sender, EventArgs e)
         {
-            if (Putty.Checked)
-            {
-                if (AutoFindPuttyPaths())
-                    MessageBox.Show(this, "All paths needed for PuTTY could be automatically found and are set.", "PuTTY");
-                else
-                    tabControl1.SelectTab("ssh");
-            }
+            if (!Putty.Checked)
+                return;
+            if (AutoFindPuttyPaths())
+                MessageBox.Show(this, "All paths needed for PuTTY could be automatically found and are set.", "PuTTY");
+            else
+                tabControl1.SelectTab("ssh");
         }
 
         private void BrowseGitBinPath_Click(object sender, EventArgs e)

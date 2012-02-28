@@ -1674,7 +1674,7 @@ namespace GitUI
         {
             try
             {
-                Process.Start(Settings.InstallDirectory + "\\GitExtensionsUserManual.pdf");
+                Process.Start(Path.Combine(Settings.InstallDirectory, "GitExtensionsUserManual.pdf"));
             }
             catch (Exception ex)
             {
