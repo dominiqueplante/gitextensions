@@ -677,14 +677,16 @@ namespace GitCommands
         {
             get
             {
-                return GetInstallDir() + "\\Dictionaries\\";
+                return InstallDirectory + "\\Dictionaries\\";
             }
         }
 
-        public static string GetInstallDir()
+        public static string InstallDirectory
         {
-            return GetValue("InstallDir", "");
-
+            get
+            {
+                return GetValue("InstallDir", "");    
+            }
         }
 
         public static void SetInstallDir(string dir)

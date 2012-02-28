@@ -663,7 +663,7 @@ namespace GitUI
 
         private void ShellExtensionsRegistered_Click(object sender, EventArgs e)
         {
-            string path = Path.Combine(Settings.GetInstallDir(), GitExtensionsShellExName);
+            string path = Path.Combine(Settings.InstallDirectory, GitExtensionsShellExName);
             if (!File.Exists(path))
             {
                 path = Assembly.GetAssembly(GetType()).Location;
@@ -1087,7 +1087,7 @@ namespace GitUI
                 AutoFindPuttyPathsInDir(GetRegistryValue(Registry.LocalMachine,
                                                          "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\PuTTY_is1",
                                                          "InstallLocation"))) return true;
-            if (AutoFindPuttyPathsInDir(Settings.GetInstallDir() + "\\PuTTY\\")) return true;
+            if (AutoFindPuttyPathsInDir(Settings.InstallDirectory + "\\PuTTY\\")) return true;
 
             return false;
         }
@@ -1975,7 +1975,7 @@ namespace GitUI
                                                       null)))
             {
                 //Check if shell extensions are installed
-                string path = Path.Combine(Settings.GetInstallDir(), GitExtensionsShellExName);
+                string path = Path.Combine(Settings.InstallDirectory, GitExtensionsShellExName);
                 if (!File.Exists(path))
                 {
                     ShellExtensionsRegistered.BackColor = Color.LightGreen;
@@ -2001,14 +2001,14 @@ namespace GitUI
                 return true;
 
             GitExtensionsInstall.Visible = true;
-            if (string.IsNullOrEmpty(Settings.GetInstallDir()))
+            if (string.IsNullOrEmpty(Settings.InstallDirectory))
             {
                 GitExtensionsInstall.BackColor = Color.LightSalmon;
                 GitExtensionsInstall.Text = "Registry entry missing [Software\\GitExtensions\\GitExtensions\\InstallDir].";
                 GitExtensionsInstall_Fix.Visible = true;
                 return false;
             }
-            if (Settings.GetInstallDir() != null && Settings.GetInstallDir().EndsWith(".exe"))
+            if (Settings.InstallDirectory != null && Settings.InstallDirectory.EndsWith(".exe"))
             {
                 GitExtensionsInstall.BackColor = Color.LightSalmon;
                 GitExtensionsInstall.Text = "Invalid installation directory stored in [Software\\GitExtensions\\GitExtensions\\InstallDir].";
