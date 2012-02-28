@@ -332,7 +332,7 @@ namespace GitUI.Script
                 originalCommand.Equals("{gitextensions}", System.StringComparison.CurrentCultureIgnoreCase) ||
                 originalCommand.Equals("gitex", System.StringComparison.CurrentCultureIgnoreCase) ||
                 originalCommand.Equals("{gitex}", System.StringComparison.CurrentCultureIgnoreCase))
-                return Settings.GetGitExtensionsFullPath();
+                return Settings.GitExtensionsFullPath;
             return originalCommand;
         }
 

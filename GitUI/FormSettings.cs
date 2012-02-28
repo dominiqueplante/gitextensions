@@ -33,7 +33,7 @@ namespace GitUI
             noImageService.Items.AddRange(GravatarService.DynamicServices.Cast<object>().ToArray());
 
             _NO_TRANSLATE_Encoding.Items.AddRange(FileViewer.EncodingTypes);
-            GlobalEditor.Items.AddRange(new Object[] { "\"" + Settings.GetGitExtensionsFullPath() + "\" fileeditor", "vi", "notepad", "notepad++" });
+            GlobalEditor.Items.AddRange(new Object[] { "\"" + Settings.GitExtensionsFullPath + "\" fileeditor", "vi", "notepad", "notepad++" });
 
             SetCurrentDiffFont(Settings.DiffFont);
         }
@@ -62,7 +62,7 @@ namespace GitUI
             string editor = Settings.Module.GetGlobalSetting("core.editor");
             if (string.IsNullOrEmpty(editor))
             {
-                Settings.Module.SetGlobalSetting("core.editor", "\"" + Settings.GetGitExtensionsFullPath() + "\" fileeditor");
+                Settings.Module.SetGlobalSetting("core.editor", "\"" + Settings.GitExtensionsFullPath + "\" fileeditor");
             }
 
             return true;

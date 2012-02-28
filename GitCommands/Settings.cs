@@ -825,9 +825,12 @@ namespace GitCommands
             set { SafeSet("SortLessRecentRepos", value, ref _SortLessRecentRepos); }
         }
 
-        public static string GetGitExtensionsFullPath()
+        public static string GitExtensionsFullPath
         {
-            return GetGitExtensionsDirectory() + "\\GitExtensions.exe";
+            get
+            {
+                return Path.Combine(GetGitExtensionsDirectory(), "GitExtensions.exe");                
+            }
         }
 
         public static string GetGitExtensionsDirectory()
