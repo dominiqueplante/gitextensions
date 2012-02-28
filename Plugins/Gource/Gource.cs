@@ -57,10 +57,10 @@ namespace Gource
 
             if (string.IsNullOrEmpty(pathToGource))
             {
-                if (
-                    MessageBox.Show(
-                        "There is no path to \"gource\" configured.\n\nDo you want to automaticly download \"gource\"?",
-                        "Download", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                DialogResult dialogResult = MessageBox.Show(
+                    "There is no path to \"gource\" configured.\n\nDo you want to automatically download \"gource\"?",
+                    "Download", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
                 {
                     var gourceUrl = SearchForGourceUrl();
 
