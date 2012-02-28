@@ -688,13 +688,11 @@ namespace GitCommands
             {
                 return GetValue("InstallDir", "");    
             }
-        }
-
-        public static void SetInstallDir(string dir)
-        {
-            if (VersionIndependentRegKey != null)
-                SetValue("InstallDir", dir);
-            
+            set
+            {
+                if (VersionIndependentRegKey != null)
+                    SetValue("InstallDir", value);    
+            }
         }
 
         public static bool RunningOnWindows()

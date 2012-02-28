@@ -654,7 +654,7 @@ namespace GitUI
 
             if (Directory.Exists(fileName))
             {
-                Settings.SetInstallDir(fileName);
+                Settings.InstallDirectory = fileName;
                 return true;
             }
 
