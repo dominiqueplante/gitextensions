@@ -37,19 +37,23 @@ namespace GitCommands
         {
             if (String.IsNullOrEmpty(commitMessageText))
             {
-                File.Delete(GetCommitMessagePath());
+                File.Delete(CommitMessagePath);
                 return;
             }
 
-            using (var textWriter = new StreamWriter(GetCommitMessagePath(), false, Settings.Encoding))
+            using (var textWriter = new StreamWriter(CommitMessagePath, false, Settings.Encoding))
             {
                 textWriter.Write(commitMessageText);
             }
         }
 
-        public static string GetCommitMessagePath()
+        public static string CommitMessagePath
         {
-            return Path.Combine(Settings.Module.WorkingDirectoryGitDIrectory,"COMMITMESSAGE"));
+            get
+            {
+                return Path.Combine(Settings.Module.WorkingDirectoryGitDIrectory, "COMMITMESSAGE"))
+                ;
+            }
         }
     }
 }

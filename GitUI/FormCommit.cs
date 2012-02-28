@@ -1041,8 +1041,8 @@ namespace GitUI
                 default:
                     message = Settings.Module.GetMergeMessage();
 
-                    if (string.IsNullOrEmpty(message) && File.Exists(GitCommands.Commit.GetCommitMessagePath()))
-                        message = File.ReadAllText(GitCommands.Commit.GetCommitMessagePath(), Settings.Encoding);
+                    if (string.IsNullOrEmpty(message) && File.Exists(GitCommands.Commit.CommitMessagePath))
+                        message = File.ReadAllText(GitCommands.Commit.CommitMessagePath, Settings.Encoding);
                     break;
             }
 
