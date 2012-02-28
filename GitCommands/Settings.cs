@@ -726,14 +726,17 @@ namespace GitCommands
             }
         }
 
-        public static bool RunningOnMacOSX()
+        public static bool RunningOnMacOSX
         {
-            switch (Environment.OSVersion.Platform)
+            get
             {
-                case PlatformID.MacOSX:
-                    return true;
-                default:
-                    return false;
+                switch (Environment.OSVersion.Platform)
+                {
+                    case PlatformID.MacOSX:
+                        return true;
+                    default:
+                        return false;
+                }
             }
         }
 
