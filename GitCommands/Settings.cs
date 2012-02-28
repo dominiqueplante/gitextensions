@@ -22,7 +22,7 @@ namespace GitCommands
 
         static Settings()
         {
-            if (!RunningOnWindows())
+            if (!RunningOnWindows)
             {
                 PathSeparator = '/';
                 PathSeparatorWrong = '\\';
@@ -695,28 +695,34 @@ namespace GitCommands
             }
         }
 
-        public static bool RunningOnWindows()
+        public static bool RunningOnWindows
         {
-            switch (Environment.OSVersion.Platform)
+            get
             {
-                case PlatformID.Win32NT:
-                case PlatformID.Win32S:
-                case PlatformID.Win32Windows:
-                case PlatformID.WinCE:
-                    return true;
-                default:
-                    return false;
+                switch (Environment.OSVersion.Platform)
+                {
+                    case PlatformID.Win32NT:
+                    case PlatformID.Win32S:
+                    case PlatformID.Win32Windows:
+                    case PlatformID.WinCE:
+                        return true;
+                    default:
+                        return false;
+                }
             }
         }
 
-        public static bool RunningOnUnix()
+        public static bool RunningOnUnix
         {
-            switch (Environment.OSVersion.Platform)
+            get
             {
-                case PlatformID.Unix:
-                    return true;
-                default:
-                    return false;
+                switch (Environment.OSVersion.Platform)
+                {
+                    case PlatformID.Unix:
+                        return true;
+                    default:
+                        return false;
+                }
             }
         }
 

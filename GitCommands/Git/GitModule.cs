@@ -681,7 +681,7 @@ namespace GitCommands
 
         public void RunGitK()
         {
-            if (Settings.RunningOnUnix())
+            if (Settings.RunningOnUnix)
             {
                 RunRealCmdDetached("gitk", "");
             }
@@ -695,7 +695,7 @@ namespace GitCommands
 
         public void RunGui()
         {
-            if (Settings.RunningOnUnix())
+            if (Settings.RunningOnUnix)
             {
                 RunRealCmdDetached("git", "gui");
             }
@@ -707,7 +707,7 @@ namespace GitCommands
 
         public void RunBash()
         {
-            if (Settings.RunningOnUnix())
+            if (Settings.RunningOnUnix)
             {
                 string[] termEmuCmds =
                 {

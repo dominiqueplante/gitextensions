@@ -812,7 +812,7 @@ namespace GitUI
         {
             string kdiff3path = Settings.Module.GetGlobalSetting("mergetool.kdiff3.path");
 
-            if (Settings.RunningOnUnix())
+            if (Settings.RunningOnUnix)
             {
                 if (string.IsNullOrEmpty(kdiff3path) || !File.Exists(kdiff3path))
                 {
@@ -852,7 +852,7 @@ namespace GitUI
         {
             string kdiff3path = Settings.Module.GetGlobalSetting("difftool.kdiff3.path");
 
-            if (Settings.RunningOnUnix())
+            if (Settings.RunningOnUnix)
             {
                 if (string.IsNullOrEmpty(kdiff3path) || !File.Exists(kdiff3path))
                 {

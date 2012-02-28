@@ -92,7 +92,7 @@ namespace GitUI.Editor
         {
             get
             {
-                if (Settings.RunningOnWindows())
+                if (Settings.RunningOnWindows)
                     return new FileViewerWindows();
                 return new FileViewerMono();
             }
