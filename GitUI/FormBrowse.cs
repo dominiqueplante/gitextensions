@@ -1917,7 +1917,7 @@ namespace GitUI
 
         private void deleteIndexlockToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string fileName = Path.Combine(Settings.Module.WorkingDirGitDir(), "index.lock");
+            string fileName = Path.Combine(Settings.Module.WorkingDirectoryGitDIrectory, "index.lock");
 
             if (File.Exists(fileName))
             {

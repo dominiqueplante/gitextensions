@@ -95,9 +95,9 @@ namespace GitCommands
             return IsBareRepository(_workingdir);
         }
 
-        public string WorkingDirGitDir()
+        public string WorkingDirectoryGitDIrectory
         {
-            return WorkingDirGitDir(_workingdir);
+            get { return WorkingDirGitDir(_workingdir); }
         }
 
         /// <summary>
@@ -1066,7 +1066,7 @@ namespace GitCommands
         {
             return annotation
                 ? RunCmd(Settings.GitCommand,
-                                "tag \"" + tagName.Trim() + "\" -a -F \"" + WorkingDirGitDir() +
+                                "tag \"" + tagName.Trim() + "\" -a -F \"" + WorkingDirectoryGitDIrectory +
                                 "\\TAGMESSAGE\" -- \"" + revision + "\"")
                 : RunGitCmd("tag \"" + tagName.Trim() + "\" \"" + revision + "\"");
         }
@@ -1220,7 +1220,7 @@ namespace GitCommands
 
         public bool InTheMiddleOfBisect()
         {
-            return File.Exists(WorkingDirGitDir() + Settings.PathSeparator.ToString() + "BISECT_START");
+            return File.Exists(WorkingDirectoryGitDIrectory + Settings.PathSeparator.ToString() + "BISECT_START");
         }
 
 
@@ -1364,7 +1364,7 @@ namespace GitCommands
             if (!string.IsNullOrEmpty(author))
                 command += " --author=\"" + author + "\"";
 
-            var path = WorkingDirGitDir() + Settings.PathSeparator.ToString() + "COMMITMESSAGE\"";
+            var path = WorkingDirectoryGitDIrectory + Settings.PathSeparator.ToString() + "COMMITMESSAGE\"";
             command += " -F \"" + path;
 
             return command;
@@ -1423,7 +1423,7 @@ namespace GitCommands
 
         public ConfigFile GetLocalConfig()
         {
-            return new ConfigFile(WorkingDirGitDir() + Settings.PathSeparator.ToString() + "config");
+            return new ConfigFile(WorkingDirectoryGitDIrectory + Settings.PathSeparator.ToString() + "config");
         }
 
         public string GetSetting(string setting)

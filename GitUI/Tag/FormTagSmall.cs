@@ -43,7 +43,7 @@ namespace GitUI.Tag
                         return;
                     }
 
-                    File.WriteAllText(Settings.Module.WorkingDirGitDir() + "\\TAGMESSAGE", tagMessage.Text);
+                    File.WriteAllText(Settings.Module.WorkingDirectoryGitDIrectory + "\\TAGMESSAGE", tagMessage.Text);
                 }
 
 
