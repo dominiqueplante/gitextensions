@@ -94,7 +94,7 @@ namespace GitUI
         {
             LoadSettings();
 
-            defaultHome.Text = string.Format(defaultHome.Text + " ({0})", GitCommandHelpers.GetDefaultHomeDir());
+            defaultHome.Text = string.Format(defaultHome.Text + " ({0})", GitCommandHelpers.DefaultHomeDirectory);
             userprofileHome.Text = string.Format(userprofileHome.Text + " ({0})", Environment.GetEnvironmentVariable("USERPROFILE"));
         }
 

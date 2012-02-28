@@ -75,7 +75,7 @@ namespace GitCommands
             }
 
             //Default!
-            Environment.SetEnvironmentVariable("HOME", GetDefaultHomeDir());
+            Environment.SetEnvironmentVariable("HOME", DefaultHomeDirectory);
         }
 
         public static string HomeDirectxory
@@ -83,16 +83,19 @@ namespace GitCommands
             get { return Environment.GetEnvironmentVariable("HOME"); }
         }
 
-        public static string GetDefaultHomeDir()
+        public static string DefaultHomeDirectory
         {
-            if (!string.IsNullOrEmpty(UserHomeDir))
-                return UserHomeDir;
-
-            if (Settings.RunningOnWindows)
+            get
             {
-                return WindowsDefaultHomeDir;
+                if (!string.IsNullOrEmpty(UserHomeDir))
+                    return UserHomeDir;
+
+                if (Settings.RunningOnWindows)
+                {
+                    return WindowsDefaultHomeDir;
+                }
+                return Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             }
-            return Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         }
 
         private static string WindowsDefaultHomeDir
