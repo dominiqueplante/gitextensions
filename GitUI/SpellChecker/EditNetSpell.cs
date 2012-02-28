@@ -100,7 +100,7 @@ namespace GitUI.SpellChecker
 
         private void LoadDictionary()
         {
-            string dictionaryFile = string.Concat(Settings.GetDictionaryDir(), Settings.Dictionary, ".dic");
+            string dictionaryFile = string.Concat(Settings.DictionaryDirectory, Settings.Dictionary, ".dic");
 
             if (_wordDictionary == null || _wordDictionary.DictionaryFile != dictionaryFile)
             {
@@ -277,7 +277,7 @@ namespace GitUI.SpellChecker
 
                 foreach (
                     var fileName in
-                        Directory.GetFiles(Settings.GetDictionaryDir(), "*.dic", SearchOption.TopDirectoryOnly))
+                        Directory.GetFiles(Settings.DictionaryDirectory, "*.dic", SearchOption.TopDirectoryOnly))
                 {
                     var file = new FileInfo(fileName);
 

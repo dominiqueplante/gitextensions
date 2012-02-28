@@ -1420,7 +1420,7 @@ namespace GitUI
                 Dictionary.Items.Add("None");
                 foreach (
                     string fileName in
-                        Directory.GetFiles(Settings.GetDictionaryDir(), "*.dic", SearchOption.TopDirectoryOnly))
+                        Directory.GetFiles(Settings.DictionaryDirectory, "*.dic", SearchOption.TopDirectoryOnly))
                 {
                     var file = new FileInfo(fileName);
                     Dictionary.Items.Add(file.Name.Replace(".dic", ""));
@@ -1428,7 +1428,7 @@ namespace GitUI
             }
             catch
             {
-                MessageBox.Show(this, "No dictionary files found in: " + Settings.GetDictionaryDir());
+                MessageBox.Show(this, "No dictionary files found in: " + Settings.DictionaryDirectory);
             }
         }
 

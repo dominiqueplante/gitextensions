@@ -672,21 +672,26 @@ namespace GitCommands
             get { return SafeGet("lastformatpatchdir", "", ref _lastFormatPatchDir); }
             set { SafeSet("lastformatpatchdir", value, ref _lastFormatPatchDir); }
         }
-
-        public static string GetDictionaryDir()
+        
+        public static string DictionaryDirectory
         {
-            return GetInstallDir() + "\\Dictionaries\\";
+            get
+            {
+                return GetInstallDir() + "\\Dictionaries\\";
+            }
         }
 
         public static string GetInstallDir()
         {
             return GetValue("InstallDir", "");
+
         }
 
         public static void SetInstallDir(string dir)
         {
             if (VersionIndependentRegKey != null)
                 SetValue("InstallDir", dir);
+            
         }
 
         public static bool RunningOnWindows()
