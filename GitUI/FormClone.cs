@@ -49,12 +49,12 @@ namespace GitUI
             if (url != null)
             {
                 _NO_TRANSLATE_From.Text = url;
-                if (!Settings.Module.ValidWorkingDir())
+                if (!Settings.Module.IsValidWorkingDirectory)
                     _NO_TRANSLATE_To.Text = Settings.WorkingDir;
             }
             else
             {
-                if (Settings.Module.ValidWorkingDir())
+                if (Settings.Module.IsValidWorkingDirectory)
                     _NO_TRANSLATE_From.Text = Settings.WorkingDir;
                 else
                     _NO_TRANSLATE_To.Text = Settings.WorkingDir;

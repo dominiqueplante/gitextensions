@@ -38,7 +38,7 @@ namespace GitUI
             InitializeComponent();
             Translate();
 
-            if (!Settings.Module.ValidWorkingDir())
+            if (!Settings.Module.IsValidWorkingDirectory)
                 Directory.Text = Settings.WorkingDir;
         }
 

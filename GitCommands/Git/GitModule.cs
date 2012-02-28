@@ -66,9 +66,9 @@ namespace GitCommands
             return GitCommandHelpers.FixPath(path);
         }
 
-        public bool ValidWorkingDir()
+        public bool IsValidWorkingDirectory
         {
-            return ValidWorkingDir(_workingdir);
+            get { return ValidWorkingDir(_workingdir); }
         }
 
         public static bool ValidWorkingDir(string dir)

@@ -112,7 +112,7 @@ namespace GitUI
             try
             {
                 GitCommandHelpers.SetEnvironmentVariable();
-                homeIsSetToLabel.Text = string.Concat(_homeIsSetToString.Text, " ", GitCommandHelpers.GetHomeDir());
+                homeIsSetToLabel.Text = string.Concat(_homeIsSetToString.Text, " ", GitCommandHelpers.HomeDirectxory);
 
                 scriptEvent.DataSource = Enum.GetValues(typeof(ScriptEvent));
 
