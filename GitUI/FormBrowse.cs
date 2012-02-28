@@ -196,7 +196,7 @@ namespace GitUI
         {
             syncContext.Post(o =>
             {
-                if (indexChanged && Settings.UseFastChecks && Settings.Module.ValidWorkingDir())
+                if (indexChanged && Settings.UseFastChecks && Settings.Module.IsValidWorkingDirectory)
                     RefreshButton.Image = Properties.Resources.arrow_refresh_dirty;
                 else
                     RefreshButton.Image = Properties.Resources.arrow_refresh;
@@ -259,7 +259,7 @@ namespace GitUI
         private void InternalInitialize(bool hard)
         {
             Cursor.Current = Cursors.WaitCursor;
-            bool validWorkingDir = Settings.Module.ValidWorkingDir();
+            bool validWorkingDir = Settings.Module.IsValidWorkingDirectory;
             bool hasWorkingDir = !string.IsNullOrEmpty(Settings.WorkingDir);
             branchSelect.Text = validWorkingDir ? Settings.Module.GetSelectedBranch() : "";
             if (hasWorkingDir)
@@ -490,7 +490,7 @@ namespace GitUI
 
         private void CheckForMergeConflicts()
         {
-            bool validWorkingDir = Settings.Module.ValidWorkingDir();
+            bool validWorkingDir = Settings.Module.IsValidWorkingDirectory;
 
             if (validWorkingDir && Settings.Module.InTheMiddleOfBisect())
             {
@@ -1604,7 +1604,7 @@ namespace GitUI
 
             Settings.WorkingDir += Settings.Module.GetSubmoduleLocalPath(button.Text);
 
-            if (Settings.Module.ValidWorkingDir())
+            if (Settings.Module.IsValidWorkingDirectory)
                 Repositories.AddMostRecentRepository(Settings.WorkingDir);
 
             InternalInitialize(true);

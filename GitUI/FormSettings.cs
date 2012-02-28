@@ -560,7 +560,7 @@ namespace GitUI
             globalConfig.Save();
 
             //Only save local settings when we are inside a valid working dir
-            if (Settings.Module.ValidWorkingDir())
+            if (Settings.Module.IsValidWorkingDirectory)
                 localConfig.Save();
         }
 
@@ -931,7 +931,7 @@ namespace GitUI
             InvalidGitPathGlobal.Visible = !canFindGitCmd;
             InvalidGitPathLocal.Visible = !canFindGitCmd;
 
-            bool valid = Settings.Module.ValidWorkingDir() && canFindGitCmd;
+            bool valid = Settings.Module.IsValidWorkingDirectory && canFindGitCmd;
             UserName.Enabled = valid;
             UserEmail.Enabled = valid;
             Editor.Enabled = valid;

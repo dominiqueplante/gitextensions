@@ -996,7 +996,7 @@ namespace GitCommands
 
                         string path = Settings.Module.GetSubmoduleFullPath(module);
                         GitModule gitmodule = new GitModule(path);
-                        if (gitmodule.ValidWorkingDir())
+                        if (gitmodule.IsValidWorkingDirectory)
                         {
                             string error = "";
                             CommitData commitData = CommitData.GetCommitData(gitmodule, hash, ref error);

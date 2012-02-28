@@ -57,7 +57,7 @@ namespace GitUI.RepoHosting
                 return;
             }
 
-            _currentBranch = Settings.Module.ValidWorkingDir() ? Settings.Module.GetSelectedBranch() : "";
+            _currentBranch = Settings.Module.IsValidWorkingDirectory ? Settings.Module.GetSelectedBranch() : "";
             LoadRemotes(foreignHostedRemotes);
             LoadMyBranches();
         }

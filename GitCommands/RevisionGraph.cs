@@ -199,7 +199,7 @@ namespace GitCommands
         private List<GitHead> GetHeads()
         {
             var result = Settings.Module.GetHeads(true);
-            bool validWorkingDir = Settings.Module.ValidWorkingDir();
+            bool validWorkingDir = Settings.Module.IsValidWorkingDirectory;
             selectedBranchName = validWorkingDir ? Settings.Module.GetSelectedBranch() : string.Empty;
             GitHead selectedHead = result.Find(head => head.Name == selectedBranchName);
 

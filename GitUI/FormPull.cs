@@ -429,7 +429,7 @@ namespace GitUI
             foreach (var submoduleName in submodules)
             {
                 submodule.WorkingDir = Settings.Module.WorkingDir + submoduleName + Settings.PathSeparator.ToString();
-                if (!submodule.ValidWorkingDir())
+                if (!submodule.IsValidWorkingDirectory)
                     return false;
             }
             return true;
