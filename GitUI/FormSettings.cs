@@ -650,7 +650,7 @@ namespace GitUI
 
         public static bool SolveGitExtensionsDir()
         {
-            string fileName = Settings.GetGitExtensionsDirectory();
+            string fileName = Settings.GitExtensionsDirectory;
 
             if (Directory.Exists(fileName))
             {

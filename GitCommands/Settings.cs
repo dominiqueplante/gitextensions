@@ -838,15 +838,18 @@ namespace GitCommands
         {
             get
             {
-                return Path.Combine(GetGitExtensionsDirectory(), "GitExtensions.exe");                
+                return Path.Combine(GitExtensionsDirectory, "GitExtensions.exe");                
             }
         }
 
-        public static string GetGitExtensionsDirectory()
+        public static string GitExtensionsDirectory
         {
-            string fileName = Assembly.GetAssembly(typeof(Settings)).Location;
-            fileName = fileName.Substring(0, fileName.LastIndexOfAny(new[] { '\\', '/' }));
-            return fileName;
+            get
+            {
+                string fileName = Assembly.GetAssembly(typeof (Settings)).Location;
+                fileName = fileName.Substring(0, fileName.LastIndexOfAny(new[] {'\\', '/'}));
+                return fileName;
+            }
         }
 
         private static T SafeGet<T>(string key, T defaultValue, ref T field, Func<string, T> converter)
