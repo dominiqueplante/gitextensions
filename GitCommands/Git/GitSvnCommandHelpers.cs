@@ -1,11 +1,9 @@
-﻿namespace GitCommands
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
+﻿using System;
+using System.IO;
+using System.Text;
 
+namespace GitCommands
+{
     /// <summary>
     /// git svn commands:
     /// svn clone
@@ -33,6 +31,7 @@
             }
             return sb.ToString();
         }
+
         public static bool CheckRefsRemoteSvn()
         {
             string svnremote = GetConfigSvnRemoteFetch();
@@ -64,12 +63,25 @@
             if (string.IsNullOrEmpty(dir))
                 return false;
 
-            string path = dir + Settings.PathSeparator.ToString() + ".git" + Settings.PathSeparator.ToString() + "svn";
-            if (Directory.Exists(path) || File.Exists(path))
+            var path = GetGitSVNPath(dir);
+            if (PathExistsAsFileOrDirectory(path))
                 return true;
 
-            return !dir.Contains(".git") &&
-                   Directory.Exists(dir + Settings.PathSeparator.ToString() + "svn");
+            string directoryWithSVN = Path.Combine(dir, "svn");
+            return !dir.Contains(".git") && Directory.Exists(directoryWithSVN);
+        }
+
+        public static string GetGitSVNPath(string dir)
+        {
+            string pathWithGit = Path.Combine(dir, ".git");
+            return Path.Combine(pathWithGit, "svn");
+        }
+
+        public static bool PathExistsAsFileOrDirectory(string path)
+        {
+            if (Directory.Exists(path) || File.Exists(path))
+                return true;
+            return false;
         }
     }
 }
