@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GitCommands;
 
 namespace GitCommandsTests
@@ -21,21 +16,54 @@ namespace GitCommandsTests
             return path.Substring(0, path.LastIndexOf('\\'));
         }
 
+        [TestMethod]
+        public void TestWorkingDir_EndsWithFolder_Ok()
+        {
+            // Act
+            Settings.WorkingDir = GetCurrentDir();
+
+            // Assert
+            CheckWorkingDir();            
+        }
 
         [TestMethod]
-        public void TestWorkingDir()
+        public void TestWorkingDir_EndsWithFile_Ok()
         {
-            Settings.WorkingDir = GetCurrentDir();
-            CheckWorkingDir();
+            // Act
             Settings.WorkingDir = GetCurrentDir() + "\\testfile.txt";
-            CheckWorkingDir();
-            Settings.WorkingDir = GetCurrentDir() + "\\";
-            CheckWorkingDir();
-            Settings.WorkingDir = GetCurrentDir() + "\\\\";
-            CheckWorkingDir();
-            Settings.WorkingDir = GetCurrentDir() + "\\test\\test\\tralala";
-            CheckWorkingDir();
 
+            // Assert
+            CheckWorkingDir();
+        }
+
+        [TestMethod]
+        public void TestWorkingDir_WindowsWithPathSeparator_Ok()
+        {
+            // Act
+            Settings.WorkingDir = GetCurrentDir() + "\\";
+
+            // Assert
+            CheckWorkingDir();            
+        }
+
+        [TestMethod]
+        public void TestWorkingDir_WindowsWithDoublePathSeparator_Ok()
+        {
+            // Act
+            Settings.WorkingDir = GetCurrentDir() + "\\\\";
+
+            // Assert
+            CheckWorkingDir();
+        }
+
+        [TestMethod]
+        public void TestWorkingDir_EndsWithMoreNestedFolder_Ok()
+        {
+            // Act
+            Settings.WorkingDir = GetCurrentDir() + "\\test\\test\\tralala";
+
+            // Assert
+            CheckWorkingDir();
         }
 
         private static void CheckWorkingDir()

@@ -514,6 +514,12 @@ namespace GitCommands
             {
                 string old = _module.WorkingDir;
                 _module.WorkingDir = value;
+                if (RunningOnWindows && _module.WorkingDir.EndsWith("\\\\"))
+                {
+                    // On Windows, the working directory should end with 2 consecutive double slashes -> \\, so remove the last one
+                    _module.WorkingDir = _module.WorkingDir.Substring(0, _module.WorkingDir.Length - 1 );
+                }
+                    
                 if (WorkingDirChanged != null)
                 {
                     WorkingDirChanged(old, _module.WorkingDir, _module.GitDirectory);
