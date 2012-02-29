@@ -90,7 +90,7 @@ namespace GitUI
 
             if (!SaveToDir.Checked)
             {
-                savePatchesToDir = Settings.Module.WorkingDirGitDir() + "\\PatchesToMail";
+                savePatchesToDir = Settings.Module.WorkingDirectoryGitDIrectory + "\\PatchesToMail";
                 if (Directory.Exists(savePatchesToDir))
                 {
                     foreach (string file in Directory.GetFiles(savePatchesToDir, "*.patch"))
