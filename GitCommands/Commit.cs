@@ -51,8 +51,7 @@ namespace GitCommands
         {
             get
             {
-                return Path.Combine(Settings.Module.WorkingDirectoryGitDIrectory, "COMMITMESSAGE"))
-                ;
+                return Path.Combine(Settings.Module.WorkingDirectoryGitDIrectory, "COMMITMESSAGE");
             }
         }
     }
