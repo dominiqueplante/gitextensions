@@ -64,6 +64,7 @@
     <Compile Include="CommitInformationTest.cs" />
     <Compile Include="FontParserTest.cs" />
     <Compile Include="GitCommandHelpersTests.cs" />
+    <Compile Include="GitSvnCommandHelpersTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FindValidworkingDirTest.cs" />
     <Compile Include="PatchManagerTest.cs" />
