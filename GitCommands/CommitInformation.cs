@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Web;
 
 namespace GitCommands
 {
     public class CommitInformation
     {
-        private const string COMMIT_LABEL = "commit ";
-        private const string TREE_LABEL = "tree ";
-        private const string PARENT_LABEL = "parent ";
-        private const string AUTHOR_LABEL = "author ";
-        private const string COMMITTER_LABEL = "committer ";
-        private const int COMMITHEADER_STRING_LENGTH = 16;
-
         /// <summary>
         /// Private constructor
         /// </summary>
@@ -35,7 +25,7 @@ namespace GitCommands
         /// </summary>
         /// <param name="sha1">The sha1.</param>
         /// <param name="getLocal">Pass true to include local branches</param>
-        /// <param name="getLocal">Pass true to include remote branches</param>
+        /// <param name="getRemote">Pass true to include remote branches</param>
         /// <returns></returns>
         public static IEnumerable<string> GetAllBranchesWhichContainGivenCommit(string sha1, bool getLocal, bool getRemote) 
         {
@@ -105,6 +95,11 @@ namespace GitCommands
             if (data == null)
                 return new CommitInformation(error, "");
 
+            return CreateCommitInformation(data);
+        }
+
+        private static CommitInformation CreateCommitInformation(CommitData data)
+        {
             string header = data.GetHeader();
             string body = "\n\n" + HttpUtility.HtmlEncode(data.Body.Trim()) + "\n\n";
 
@@ -120,10 +115,7 @@ namespace GitCommands
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            string header = data.GetHeader();
-            string body = "\n\n" + HttpUtility.HtmlEncode(data.Body.Trim()) + "\n\n";
-
-            return new CommitInformation(header, body);
+            return CreateCommitInformation(data);
         }
     }
 }
