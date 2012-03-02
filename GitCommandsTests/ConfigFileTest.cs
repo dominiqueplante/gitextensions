@@ -411,14 +411,13 @@ namespace GitCommandsTests
         [TestCleanup]
         public void Cleanup()
         {
-            if (File.Exists(GetConfigFileName()))
-            {
-                //Make sure it is hidden
-                FileInfo configFile = new FileInfo(GetConfigFileName());
-                configFile.Attributes = FileAttributes.Normal;
+            if (!File.Exists(GetConfigFileName()))
+                return;
+            //Make sure it is hidden
+            FileInfo configFile = new FileInfo(GetConfigFileName());
+            configFile.Attributes = FileAttributes.Normal;
 
-                File.Delete(GetConfigFileName());
-            }
+            File.Delete(GetConfigFileName());
         }
     }
 }

@@ -168,8 +168,7 @@ namespace GitCommands.Config
             var configSection = FindConfigSection(configSectionName);
             if (configSection != null)
                 return configSection.GetValue(keyName) != string.Empty;
-            else
-                return false;
+            return false;
         }
 
         public string GetValue(string setting)
