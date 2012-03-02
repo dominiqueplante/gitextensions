@@ -19,6 +19,38 @@ namespace GitCommandsTests
         }
 
         [TestMethod]
+        public void GetMD5Hash_AString_ReturnsMD5ForString()
+        {
+            var pm = new PatchManager();
+            var res = pm.GetMD5Hash("hello world");
+            Assert.AreEqual("5eb63bbbe01eeed093cb22bb8f5acdc3", res);
+        }
+        [TestMethod]
+        public void GetSelectedLinesAsPatch_Empty_returnsNull()
+        {
+            // Act
+            var res = PatchManager.GetSelectedLinesAsPatch(null, 0, 0, true);
+
+            // Assert
+            Assert.IsNull(res);
+        }
+
+        [TestMethod]
+        public void GetSelectedLinesAsPatch_BogusLines_returnsPath()
+        {
+            var result = PatchManager.GetSelectedLinesAsPatch("abcde@@ -1,1, +2,3 @@ foo bar\nfghijklmnopqr-stuvw\nxyz", 7, 15, true);
+            Assert.AreEqual("abcde@@ -1,1 +1,1 @@\nfghijklmnopqr-stuvw\nxyz", result);
+        }
+
+        //\n\\ No newline at end of file\n
+        [TestMethod]
+        public void GetSelectedLinesAsPatch_BogusLinesWithNoNewlineAtEndOfFile_returnsPath()
+        {
+            var result = PatchManager.GetSelectedLinesAsPatch("abcde@@ -1,1, +2,3 @@ foo bar\nfghijklmnopqr-stuvw\nxyz\n\\ No newline at end of file\n", 7, 15, true);
+            Assert.AreEqual("abcde@@ -1,1 +1,1 @@\nfghijklmnopqr-stuvw\nxyz", result);
+        }
+
+        [TestMethod]
         public void TestCorrectlyLoadsTheRightFilenamesInAPatchFile()
         {
             PatchManager manager = NewManager();
