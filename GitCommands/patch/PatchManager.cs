@@ -32,7 +32,7 @@ namespace PatchApply
             if (text.EndsWith("\n\\ No newline at end of file\n"))
                 text = text.Remove(text.Length - "\n\\ No newline at end of file\n".Length);
 
-            // Devide diff into header and patch
+            // Divide diff into header and patch
             int patch_pos = text.IndexOf("@@");
             string header = text.Substring(0, patch_pos);
             string diff = text.Substring(patch_pos);
