@@ -20,6 +20,42 @@ namespace GitCommands
         {
             return Headers.First(h => h.CommitGuid == commitGuid);
         }
+
+        public string GetCommitersForBlameControl()
+        {
+            var blameCommitter = new StringBuilder();
+            for (var i = 0; i < Lines.Count; i++)
+            {
+                GitBlameLine blameLine = Lines[i];
+
+                if (i > 0 && Lines[i - 1].CommitGuid == blameLine.CommitGuid)
+                {
+                    blameCommitter.AppendLine(new string(' ', 200));
+                }
+                else
+                {
+                    GitBlameHeader blameHeader = FindHeaderForCommitGuid(blameLine.CommitGuid);
+                    string blameHeaderInfo =
+                        (blameHeader.Author + " - " + blameHeader.AuthorTime + " - " + blameHeader.FileName +
+                         new string(' ', 100)).Trim(new[] { '\r', '\n' });
+                    blameCommitter.AppendLine(blameHeaderInfo);
+                }
+            }
+            return blameCommitter.ToString();
+        }
+
+        public string GetBlameFileForBlameControl()
+        {
+            var blameFile = new StringBuilder();
+            foreach (GitBlameLine blameLine in Lines)
+            {
+                if (blameLine.LineText == null)
+                    blameFile.AppendLine("");
+                else
+                    blameFile.AppendLine(blameLine.LineText.Trim(new[] { '\r', '\n' }));
+            }
+            return blameFile.ToString();
+        }
     }
 
     public class GitBlameLine
@@ -28,7 +64,6 @@ namespace GitCommands
         public string CommitGuid { get; set; }
         public string FinalLineNumber { get; set; }
         public string OriginLineNumber { get; set; }
-
         public string LineText { get; set; }
     }
 
@@ -50,7 +85,10 @@ namespace GitCommands
         public Color GetColor()
         {
             int partLength = CommitGuid.Length / 3;
-            return Color.FromArgb(GenerateIntFromString(CommitGuid.Substring(0, partLength)) % 55 + 200, GenerateIntFromString(CommitGuid.Substring(partLength, partLength)) % 55 + 200, GenerateIntFromString(CommitGuid.Substring(partLength)) % 55 + 200);
+            int red = GenerateIntFromString(CommitGuid.Substring(0, partLength)) % 55 + 200;
+            int green = GenerateIntFromString(CommitGuid.Substring(partLength, partLength)) % 55 + 200;
+            int blue = GenerateIntFromString(CommitGuid.Substring(partLength)) % 55 + 200;
+            return Color.FromArgb(red, green, blue);
 
             //return Color.White;
         }
@@ -67,7 +105,7 @@ namespace GitCommands
 
         public override string ToString()
         {
-            StringBuilder toStringValue = new StringBuilder();
+            var toStringValue = new StringBuilder();
             toStringValue.AppendLine("Author: " + Author);
             toStringValue.AppendLine("AuthorTime: " + AuthorTime.ToString());
             toStringValue.AppendLine("Committer: " + Committer);
