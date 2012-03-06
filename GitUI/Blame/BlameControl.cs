@@ -173,7 +173,7 @@ namespace GitUI.Blame
 
         #endregion
 
-        public void LoadBlame(string guid, string fileName, RevisionGrid revGrid)
+        public void LoadBlame(string guid, string fileName, RevisionGrid revGrid = null)
         {
             var scrollpos = BlameFile.ScrollPos;
 
