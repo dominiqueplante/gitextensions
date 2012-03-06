@@ -28,7 +28,7 @@ namespace GitUI
         private void FormDeleteBranchLoad(object sender, EventArgs e)
         {
             Heads = Settings.Module.GetHeads(true, true);
-            List<GitHead> branchList = Heads.FindAll(h => h.IsHead == true && h.IsRemote == false);
+            List<GitHead> branchList = Heads.FindAll(h => h.IsHead && h.IsRemote == false);
             Branches.BranchesToSelect = branchList;
 
             if (_defaultBranch != null)
@@ -45,8 +45,7 @@ namespace GitUI
                     DialogResult.Yes)
                 {
 
-                    GitDeleteBranchCmd cmd = new GitDeleteBranchCmd();
-                    cmd.Force = ForceDelete.Checked;
+                    GitDeleteBranchCmd cmd = new GitDeleteBranchCmd {Force = ForceDelete.Checked};
                     foreach (GitHead head in Branches.GetSelectedBranches())
                         cmd.AddBranch(head.Name, head.IsRemote);
 
