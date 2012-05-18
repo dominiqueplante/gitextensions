@@ -1,62 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using GitCommands;
+using GitExtensions.Commands;
 using GitUI;
 
 namespace GitExtensions
 {
     internal class CommandRunner
     {
-        internal static void RunMergeToolOrConflictCommand(Dictionary<string, string> arguments)
-        {
-            if (!arguments.ContainsKey("quiet") || Settings.Module.InTheMiddleOfConflictedMerge())
-                GitUICommands.Instance.StartResolveConflictsDialog();
-        }
-
-        internal static void RunBlameCommand(string[] args)
-        {
-            // Remove working dir from filename. This is to prevent filenames that are too
-            // long while there is room left when the workingdir was not in the path.
-            string filenameFromBlame = args[2].Replace(Settings.WorkingDir, "").Replace('\\', '/');
-            GitUICommands.Instance.StartBlameDialog(filenameFromBlame);
-        }
-
-        internal static void RunInitCommand(string[] args)
-        {
-            if (args.Length > 2)
-                GitUICommands.Instance.StartInitializeDialog(args[2]);
-            else
-                GitUICommands.Instance.StartInitializeDialog();
-        }
-
         internal static void RunCloneCommand(string[] args)
         {
             if (args.Length > 2)
                 GitUICommands.Instance.StartCloneDialog(args[2]);
             else
                 GitUICommands.Instance.StartCloneDialog();
-        }
-
-        internal static void Commit(Dictionary<string, string> arguments)
-        {
-            GitUICommands.Instance.StartCommitDialog(arguments.ContainsKey("quiet"));
-        }
-
-        internal static void RunOpenRepoCommand(string[] args)
-        {
-            if (args.Length > 2 && File.Exists(args[2]))
-            {
-                string path = File.ReadAllText(args[2]);
-                if (Directory.Exists(path))
-                {
-                    Settings.WorkingDir = path;
-                }
-            }
-
-            GitUICommands.Instance.StartBrowseDialog();
         }
 
         internal static void RunFileEditorCommand(string[] args)
@@ -77,98 +35,37 @@ namespace GitExtensions
             GitUICommands.Instance.StartFileHistoryDialog(fileHistoryFileName);
         }
 
-        internal static void Push(Dictionary<string, string> arguments)
-        {
-            GitUICommands.Instance.StartPushDialog(arguments.ContainsKey("quiet"));
-        }
-
-        internal static void RunMergeCommand(Dictionary<string, string> arguments)
-        {
-            string branch = null;
-            if (arguments.ContainsKey("branch"))
-                branch = arguments["branch"];
-            GitUICommands.Instance.StartMergeBranchDialog(branch);
-        }
-
-        internal static void Pull(Dictionary<string, string> arguments)
-        {
-            UpdateSettingsBasedOnArguments(arguments);
-            GitUICommands.Instance.StartPullDialog(arguments.ContainsKey("quiet"));
-        }
-
-        internal static void UpdateSettingsBasedOnArguments(Dictionary<string, string> arguments)
-        {
-            if (arguments.ContainsKey("merge"))
-                Settings.PullMerge = "merge";
-            if (arguments.ContainsKey("rebase"))
-                Settings.PullMerge = "rebase";
-            if (arguments.ContainsKey("fetch"))
-                Settings.PullMerge = "fetch";
-            if (arguments.ContainsKey("autostash"))
-                Settings.AutoStash = true;
-        }
-
-        internal static void RunSynchronizeCommand(Dictionary<string, string> arguments)
-        {
-            Commit(arguments);
-            Pull(arguments);
-            Push(arguments);
-        }
-
-        internal static void RunRebaseCommand(Dictionary<string, string> arguments)
-        {
-            string branch = null;
-            if (arguments.ContainsKey("branch"))
-                branch = arguments["branch"];
-            GitUICommands.Instance.StartRebaseDialog(branch);
-        }
-
-        internal static void RunSearchFileCommand()
-        {
-            var searchWindow = new SearchWindow<string>(FindFileMatches);
-            Application.Run(searchWindow);
-            Console.WriteLine(Settings.WorkingDir + searchWindow.SelectedItem);
-        }
-
-        internal static IList<string> FindFileMatches(string name)
-        {
-            var candidates = Settings.Module.GetFullTree("HEAD");
-
-            string nameAsLower = name.ToLower();
-
-            return candidates.Where(fileName => fileName.ToLower().Contains(nameAsLower)).ToList();
-        }
 
         internal static void RunCommandBasedOnArgument(string[] args, Dictionary<string, string> arguments)
         {
             if (args[1] == "mergetool" || args[1] == "mergeconflicts")
             {
-                RunMergeToolOrConflictCommand(arguments);
+                new MergeToolCommand().Execute(arguments);
                 return;
             }
             if (args[1] == "gitbash")
             {
-                Settings.Module.RunBash();
+                new BashCommand().Execute();
                 return;
             }
             if (args[1] == "gitignore")
             {
-                GitUICommands.Instance.StartEditGitIgnoreDialog();
+                new IgnoreCommand().Execute();
                 return;
             }
             if (args[1] == "remotes")
             {
-                GitUICommands.Instance.StartRemotesDialog();
+                new RemotesCommand().Execute();
                 return;
             }
             if (args[1] == "blame")
             {
-                RunBlameCommand(args);
+                new BlameCommand().Execute(args);
                 return;
             }
             if (args[1] == "browse")
             {
-                GitUICommands.Instance.StartBrowseDialog(GetParameterOrEmptyStringAsDefault(args, "-filter"));
+                new BrowseCommand().Execute(args);
                 return;
             }
             if (args[1] == "cleanup")
@@ -178,22 +75,22 @@ namespace GitExtensions
             }
             if (args[1] == "add" || args[1] == "addfiles")
             {
-                GitUICommands.Instance.StartAddFilesDialog();
+                new AddFilesCommand().Execute();
                 return;
             }
             if (args[1] == "apply" || args[1] == "applypatch")
             {
-                GitUICommands.Instance.StartApplyPatchDialog();
+                new ApplyPatchCommand().Execute();
                 return;
             }
             if (args[1] == "branch")
             {
-                GitUICommands.Instance.StartCreateBranchDialog();
+                new BranchCommand().Execute();
                 return;
             }
             if (args[1] == "checkout" || args[1] == "checkoutbranch")
             {
-                GitUICommands.Instance.StartCheckoutBranchDialog();
+                new CheckoutBranchCommand().Execute();
                 return;
             }
             if (args[1] == "checkoutrevision")
@@ -203,7 +100,7 @@ namespace GitExtensions
             }
             if (args[1] == "init")
             {
-                RunInitCommand(args);
+                new InitCommand().Execute(args);
                 return;
             }
             if (args[1] == "clone")
@@ -213,7 +110,7 @@ namespace GitExtensions
             }
             if (args[1] == "commit")
             {
-                Commit(arguments);
+                new CommitCommand().Execute(arguments);
                 return;
             }
             if (args[1] == "filehistory")
@@ -233,12 +130,12 @@ namespace GitExtensions
             }
             if (args[1] == "pull")
             {
-                Pull(arguments);
+                new PullCommand().Execute(arguments);
                 return;
             }
             if (args[1] == "push")
             {
-                Push(arguments);
+                new PushCommand().Execute(arguments);
                 return;
             }
             if (args[1] == "settings")
@@ -248,7 +145,7 @@ namespace GitExtensions
             }
             if (args[1] == "searchfile")
             {
-                RunSearchFileCommand();
+                new SearchFileCommand().Execute();
                 return;
             }
             if (args[1] == "viewdiff")
@@ -258,60 +155,51 @@ namespace GitExtensions
             }
             if (args[1] == "rebase")
             {
-                RunRebaseCommand(arguments);
+                new RebaseCommand().Execute(arguments);
                 return;
             }
             if (args[1] == "merge")
             {
-                RunMergeCommand(arguments);
+                new MergeCommand().Execute(arguments);
                 return;
             }
             if (args[1] == "cherry")
             {
-                GitUICommands.Instance.StartCherryPickDialog();
+                new CherryPickCommand().Execute();                
                 return;
             }
             if (args[1] == "revert")
             {
-                Application.Run(new FormRevert(args[2]));
+                new RevertCommand().Execute(args[2]);
                 return;
             }
             if (args[1] == "tag")
             {
-                GitUICommands.Instance.StartCreateTagDialog();
+                new TagCommand().Execute();
                 return;
             }
             if (args[1] == "about")
             {
-                Application.Run(new AboutBox());
+                new AboutCommand().Execute();
                 return;
             }
             if (args[1] == "stash")
             {
-                GitUICommands.Instance.StartStashDialog();
+                new StashCommand().Execute();
                 return;
             }
             if (args[1] == "synchronize")
             {
-                RunSynchronizeCommand(arguments);
+                new SynchronizeCommand().Execute(arguments);
                 return;
             }
             if (args[1] == "openrepo")
             {
-                RunOpenRepoCommand(args);
+                new OpenRepositoryCommand().Execute(args);
                 return;
             }
             Application.Run(new FormCommandlineHelp());
         }
 
-        internal static string GetParameterOrEmptyStringAsDefault(string[] args, string paramName)
-        {
-            if (args.Any(arg => arg.StartsWith(paramName + "=")))
-            {
-                return args[2].Replace(paramName + "=", "");
-            }
-
-            return String.Empty;
-        }
     }
 }
